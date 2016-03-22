@@ -21,22 +21,6 @@ extension UIColor {
     }
 }
 
-class Course {
-    var weekRange: Range<Int>
-    var day: Int
-    var courseTimeStart: Int
-    var courseCount: Int
-    var courseInformation: String
-    
-    init(weekRange: Range<Int>, day: Int, courseTimeStart: Int, courseCount: Int, courseInformation: String) {
-        self.weekRange = weekRange
-        self.courseTimeStart = courseTimeStart
-        self.courseCount = courseCount
-        self.courseInformation = courseInformation
-        self.day = day
-    }
-}
-
 class YoungCourseView: UIScrollView {
     
     
@@ -56,7 +40,7 @@ class YoungCourseView: UIScrollView {
     }
     
     private let dayArrays: [String] = ["一", "二", "三", "四", "五", "六", "日"]
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentSize = CGSize(width: 7 * 100 + 2 * 30, height: 60 * 12 + 30)
@@ -94,7 +78,7 @@ class YoungCourseView: UIScrollView {
                     courseInformationLabel.textAlignment = .Center
                     courseInformationLabel.sizeToFit()
                     while courseInformationLabel.bounds.height > courseView.bounds.height - 10 {
-                        fontSizeInt--
+                        fontSizeInt -= 1
                         courseInformationLabel.font = UIFont.systemFontOfSize(CGFloat(fontSizeInt))
                         courseInformationLabel.sizeToFit()
                     }
@@ -119,7 +103,7 @@ class YoungCourseView: UIScrollView {
         weekButton.layer.borderColor = UIColor.whiteColor().CGColor
         weekButton.layer.borderWidth = 0.5
         weekButton.layer.cornerRadius = 5
-        weekButton.addTarget(self, action: "addWeek:", forControlEvents: UIControlEvents.TouchUpInside)
+        weekButton.addTarget(self, action: #selector(YoungCourseView.addWeek(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(weekButton)
         
         for (index, text) in self.dayArrays.enumerate() {
@@ -195,12 +179,28 @@ class YoungCourseView: UIScrollView {
     
     //button相应事件
     func addWeek(button: UIButton) {
-        self.weekIndex++
+        self.weekIndex += 1
         button.setTitle("第\(self.weekIndex)周", forState: UIControlState.Normal)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+}
 
+class Course {
+    var weekRange: Range<Int>
+    var day: Int
+    var courseTimeStart: Int
+    var courseCount: Int
+    var courseInformation: String
+    
+    init(weekRange: Range<Int>, day: Int, courseTimeStart: Int, courseCount: Int, courseInformation: String) {
+        self.weekRange = weekRange
+        self.courseTimeStart = courseTimeStart
+        self.courseCount = courseCount
+        self.courseInformation = courseInformation
+        self.day = day
+    }
 }
